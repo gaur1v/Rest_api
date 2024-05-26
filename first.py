@@ -57,13 +57,13 @@ def create_data():
 
 @app.route('/api/<name>',methods=['DELETE'])
 
-@app.route('/api/<name>', methods=['DELETE'])
-def delete(name):
+@app.route('/api/<int:id>', methods=['DELETE'])
+def delete(id):
     cursor = mysql.connection.cursor()
-    cursor.execute("drop table if exists {}".format(name))
+    cursor.execute("DELETE FROM part WHERE id = {}".format(id))
     mysql.connection.commit()
     cursor.close()
-    return jsonify({'message': 'Table {} deleted successfully'.format(name)})
+    return jsonify({'message': 'Row {} deleted successfully'.format(id)})
 
 
 # mycursor=mydb.cursor()
