@@ -39,14 +39,14 @@ def create_data():
         
         data=request.get_json()
         name=data.get('name')
-        garde=data.get('garde')
+        grade=data.get('grade')
         price=data.get('price')
         id=len(Bike_part)
         
         
 
         cur=mysql.connection.cursor()
-        q=cur.execute("INSERT INTO part (name, garde, price, id)VALUES(%s,%s,%s,%s)",(name,garde,price,id))
+        q=cur.execute("INSERT INTO part (name, grade, price, id)VALUES(%s,%s,%s,%s)",(name,grade,price,id))
         mysql.connection.commit()
         Bike_part.append(q)
         cur.close()
@@ -64,6 +64,20 @@ def delete(id):
     mysql.connection.commit()
     cursor.close()
     return jsonify({'message': 'Row {} deleted successfully'.format(id)})
+
+@app.route('/update/<int:id>',methods=['put'])
+def update(id):
+     up=request.get_json()
+     name=up.get('name')
+     grade=up.get('grade')
+     price=up.get('price')
+
+     uper= mysql.connection.cursor()
+     uper.execute('UPDATE part SET name=%s,grade=%s,price=%s  WHERE id=%s',(name,grade,price,id))
+     mysql.connection.commit()
+     uper.close()
+     return jsonify({'message':'data is update'})
+
 
 
 # mycursor=mydb.cursor()
